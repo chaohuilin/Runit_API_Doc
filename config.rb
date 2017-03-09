@@ -1,4 +1,3 @@
-# Serve files from the build directory
 # Markdown
 set :markdown_engine, :redcarpet
 set :markdown,
@@ -45,9 +44,6 @@ configure :build do
   # activate :gzip
 end
 
-require 'rack'
-require 'rack/contrib/try_static'
-
 # Deploy Configuration
 # If you want Middleman to listen on a different port, you can set that below
-set :port, 6666
+set :port, 4567
