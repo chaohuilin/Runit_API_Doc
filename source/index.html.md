@@ -1,179 +1,156 @@
 ---
-title: API Reference
+title: Runit API documentation
 
 language_tabs:
   - shell
   - ruby
-  - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
+  - <a>Si vous avez des questions,</a>
+  - <a>Veuillez contacter les administrateurs.</a>
+  - <a>Powered by Runit</a>
 
 search: true
 ---
 
 # Introduction
 
-Bienvenue dans la documentation d'API du projet Runit. Vous allez retrouver dans ce document tous les éléménts permettant de comprendre le fonctionnement d'API ainsi tous les paramètres ainsi les routes détaillés pour chaque système.
+Bienvenue dans la documentation d'API du projet Runit. Vous allez retrouver dans ce document tous les modèles du projet Runit ainsi tous les informations nécessaires pour chaque fonctionnalité de l'API.
 
-# Authentication
 
-> To authorize, use this code:
+# Authentification
 
-```ruby
-require 'kittn'
+## Connexion
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# User
-
-## Création
-
-```Ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```Ruby console
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
+>le json de la requête doit ressembler à l'exemple suivant:
 
 ```json
 [
   {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "email": "toto@gmail.com",
+    "password": "totoliketoto",
   }
 ]
 ```
 
-This endpoint retrieves all kittens.
-
 ### HTTP Request
+`POST http://www.runit.com/api/v1/users/sign_in`
 
-`GET http://example.com/api/kittens`
 
-### Query Parameters
+# User
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+
+## Modèle
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Le système d'utilisateur se base sur le Gem Device, pour tous les paramètres qui ne sont pas mentionnés ci-dessous, veuillez référer à la documentation du Gem Device ou regarder directement dans le projet.
 </aside>
 
-## Get a Specific Kitten
+Paramètre | Type | Défaut | Nullable | Unique | Déscription
+--------- | ---- | ----------------- | -------- | ------ | -----------
+email | string | "" | false | true |
+firstname | string | "" | false | false |
+lastname | string | "" | false | false |
+password | string | "" | false | false | le mot de passe doit avoir au moins 8 caractères.
+phone | string | "" | true | true |
+address | string | "" | true | false |
+enable | boolean | false | false |  |
 
-```ruby
-require 'kittn'
+## Création
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+### Requête HTTP
+
+`POST http://runit.com/api/v1/users`
+
+### Type du data
+
+`JSON`
+
+```shell
+
+  >> rails c
+  >> User.create('email':'toto@gmail.com', 'firstname':'jean', 'lastname': 'pierre', password:"totoliketoto")
+
 ```
 
-```python
-import kittn
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+```ruby
+
+#le json de la requête doit ressembler à l'exemple suivant:
+
+[
+  {
+    "email": "toto@gmail.com",
+    "firstname": "jean",
+    "lastname": "pierre",
+    "password": "totoliketoto",
+    "phone": "0601010101" (optionnel),
+    "address": "chez toto" (optionnel),
+  }
+]
+```
+
+### Les paramètres de la requête
+
+Paramètre | Défaut | Déscription
+--------- | ------- | -----------
+email | "" |
+firstname | "" |
+lastname | "" |
+password | "" | le mot de passe doit avoir au moins 8 caractères.
+phone | "" | Ce paramètre n'est pas nécessaire
+address | "" | Ce paramètre n'est pas nécessaire
+
+## Modification
+
+```ruby
+#le json de la requête doit ressembler à l'exemple suivant:
+
+[
+  {
+    "firstname": "jean"(optionnel),
+    "lastname": "pierre"(optionnel),
+    "password": "totoliketoto"(optionnel),
+    "phone": "0601010101" (optionnel),
+    "address": "chez toto" (optionnel),
+  }
+]
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+  >> rails c
+  >> user1 = User.find(user.id)
+  >> user1.update_attributes('firstname':'billy')
 ```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`PUT http://www.runit.com/api/v1/users`
 
-### URL Parameters
+### Les paramètres qui sont modifiables
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Paramètre | Défaut | Déscription
+--------- | ------- | -----------
+firstname | "" |
+lastname | "" |
+password | "" | le mot de passe doit avoir au moins 8 caractères.
+phone | "" | Ce paramètre n'est pas nécessaire
+address | "" | Ce paramètre n'est pas nécessaire
+
+## Confirmation
+
+### HTTP Request
+`GET http://www.runit.com/api/v1/users/confirmation?confirmation_token=SqZ84MHykSPMvLdR1nDY`
+
+<aside class="warning">
+Vous devez remplacer le confirmation_token par le token fourni dans le mail de confirmation.
+</aside>
+
+
+# Run
+
+## Création
+
+# Friends
+
+## Création
