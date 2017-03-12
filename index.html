@@ -230,7 +230,7 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-<p>Bienvenue dans la documentation d&#39;API du projet Runit. Vous allez retrouver dans ce document tous les modèles du projet Runit ainsi tous les informations nécessaires pour chaque fonctionnalité de l&#39;API.</p>
+<p>Bienvenue dans la documentation d&#39;API du projet Runit. Vous allez retrouver dans ce document tous les modèles du projet Runit ainsi tous les informations détaillées pour chaque fonctionnalité de l&#39;API.</p>
 
 <h1 id="authentification">Authentification</h1>
 
@@ -248,7 +248,17 @@
 </span></code></pre>
 <h3 id="http-request">HTTP Request</h3>
 
+<p><code class="prettyprint">GET http://www.runit.com/api/v1/users/sign_in</code></p>
+
+<h3 id="http-request">HTTP Request</h3>
+
 <p><code class="prettyprint">POST http://www.runit.com/api/v1/users/sign_in</code></p>
+
+<h2 id="d-connexion">Déconnexion</h2>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">DELETE http://www.runit.com/api/v1/users/sign_out</code></p>
 
 <h1 id="user">User</h1>
 
@@ -328,7 +338,7 @@ Le système d'utilisateur se base sur le Gem Device, pour tous les paramètres q
 
 <h2 id="cr-ation">Création</h2>
 
-<h3 id="requ-te-http">Requête HTTP</h3>
+<h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">POST http://runit.com/api/v1/users</code></p>
 
@@ -462,7 +472,175 @@ Vous devez remplacer le confirmation_token par le token fourni dans le mail de c
 
 <h1 id="run">Run</h1>
 
+<h2 id="mod-le">Modèle</h2>
+
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Type</th>
+<th>Défaut</th>
+<th>Nullable</th>
+<th>Unique</th>
+<th>Déscription</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>coordinates</td>
+<td>string</td>
+<td>&ldquo;&rdquo;</td>
+<td>false</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>datetime</td>
+<td></td>
+<td>false</td>
+<td></td>
+<td>Ce paramètre ne DOIT pas être modifié à la main</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>datetime</td>
+<td></td>
+<td>false</td>
+<td></td>
+<td>Ce paramètre ne DOIT pas être modifié à la main</td>
+</tr>
+<tr>
+<td>started_at</td>
+<td>datetime</td>
+<td></td>
+<td>false</td>
+<td></td>
+<td>Ce paramètre ne DOIT pas être modifié à la main</td>
+</tr>
+<tr>
+<td>total_distance</td>
+<td>integer</td>
+<td>0</td>
+<td>false</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>total_time</td>
+<td>integer</td>
+<td>0</td>
+<td>false</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>max_speed</td>
+<td>integer</td>
+<td>0</td>
+<td>false</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>integer</td>
+<td></td>
+<td>false</td>
+<td></td>
+<td>l&#39;id du créateur de la course.</td>
+</tr>
+</tbody></table>
+
+<h2 id="index">Index</h2>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET http://www.runit.com/api/v1/runs</code></p>
+
+<h2 id="show">Show</h2>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET http://www.runit.com/api/v1/runs/:id</code></p>
+
+<aside class="warning">
+Vous devez remplacer le &ldquo;:id&rdquo; par l'id de la course en question.
+</aside>
+
 <h2 id="cr-ation">Création</h2>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST http://www.runit.com/api/v1/runs</code></p>
+
+<p><code class="prettyprint">JSON</code></p>
+<pre class="highlight shell tab-shell"><code>
+  &gt;&gt; rails c
+  &gt;&gt; User.create<span class="o">(</span><span class="s1">'email'</span>:<span class="s1">'toto@gmail.com'</span>, <span class="s1">'firstname'</span>:<span class="s1">'jean'</span>, <span class="s1">'lastname'</span>: <span class="s1">'pierre'</span>, password:<span class="s2">"totoliketoto"</span><span class="o">)</span>
+
+</code></pre><pre class="highlight ruby tab-ruby"><code>
+<span class="c1">#le json de la requête doit ressembler à l'exemple suivant:</span>
+
+<span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"toto@gmail.com"</span><span class="p">,</span>
+    <span class="s2">"firstname"</span><span class="p">:</span> <span class="s2">"jean"</span><span class="p">,</span>
+    <span class="s2">"lastname"</span><span class="p">:</span> <span class="s2">"pierre"</span><span class="p">,</span>
+    <span class="s2">"password"</span><span class="p">:</span> <span class="s2">"totoliketoto"</span><span class="p">,</span>
+    <span class="s2">"phone"</span><span class="p">:</span> <span class="s2">"0601010101"</span> <span class="p">(</span><span class="n">optionnel</span><span class="p">),</span>
+    <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"chez toto"</span> <span class="p">(</span><span class="n">optionnel</span><span class="p">),</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<h3 id="les-param-tres-de-la-requ-te">Les paramètres de la requête</h3>
+
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Défaut</th>
+<th>Déscription</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>coordinates</td>
+<td>&ldquo;&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>started_at</td>
+<td>&ldquo;&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>total_distance</td>
+<td>&ldquo;&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>total_time</td>
+<td>&ldquo;&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>max_speed</td>
+<td>&ldquo;&rdquo;</td>
+<td></td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>&ldquo;&rdquo;</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<h2 id="modification-dune-course">Modification d&#39;une course</h2>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">PUT http://www.runit.com/api/v1/runs/:id/edit</code></p>
+
+<aside class="warning">
+Vous devez remplacer le &ldquo;:id&rdquo; par l'id de la course en question.
+</aside>
 
 <h1 id="friends">Friends</h1>
 
