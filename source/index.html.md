@@ -15,7 +15,7 @@ search: true
 
 # Introduction
 
-Bienvenue dans la documentation d'API du projet Runit. Vous allez retrouver dans ce document tous les modèles du projet Runit ainsi tous les informations nécessaires pour chaque fonctionnalité de l'API.
+Bienvenue dans la documentation d'API du projet Runit. Vous allez retrouver dans ce document tous les modèles du projet Runit ainsi tous les informations détaillées pour chaque fonctionnalité de l'API.
 
 
 # Authentification
@@ -34,8 +34,18 @@ Bienvenue dans la documentation d'API du projet Runit. Vous allez retrouver dans
 ```
 
 ### HTTP Request
+`GET http://www.runit.com/api/v1/users/sign_in`
+
+
+### HTTP Request
 `POST http://www.runit.com/api/v1/users/sign_in`
 
+
+## Déconnexion
+
+
+### HTTP Request
+`DELETE http://www.runit.com/api/v1/users/sign_out`
 
 # User
 
@@ -58,7 +68,7 @@ enable | boolean | false | false |  |
 
 ## Création
 
-### Requête HTTP
+### HTTP Request
 
 `POST http://runit.com/api/v1/users`
 
@@ -149,7 +159,88 @@ Vous devez remplacer le confirmation_token par le token fourni dans le mail de c
 
 # Run
 
+## Modèle
+
+Paramètre | Type | Défaut | Nullable | Unique | Déscription
+--------- | ---- | ----------------- | -------- | ------ | -----------
+coordinates | string | "" | false | |
+created_at | datetime| | false | | Ce paramètre ne DOIT pas être modifié à la main
+updated_at | datetime | | false | | Ce paramètre ne DOIT pas être modifié à la main
+started_at| datetime | | false | | Ce paramètre ne DOIT pas être modifié à la main
+total_distance | integer | 0 | false | |
+total_time | integer | 0 | false | |
+max_speed | integer | 0 | false | |
+user_id | integer | | false | | l'id du créateur de la course.
+
+## Index
+
+### HTTP Request
+
+`GET http://www.runit.com/api/v1/runs`
+
+
+## Show
+
+### HTTP Request
+
+`GET http://www.runit.com/api/v1/runs/:id`
+
+<aside class="warning">
+Vous devez remplacer le ":id" par l'id de la course en question.
+</aside>
+
 ## Création
+
+### HTTP Request
+
+`POST http://www.runit.com/api/v1/runs`
+
+`JSON`
+
+```shell
+
+  >> rails c
+  >> User.create('email':'toto@gmail.com', 'firstname':'jean', 'lastname': 'pierre', password:"totoliketoto")
+
+```
+
+
+```ruby
+
+#le json de la requête doit ressembler à l'exemple suivant:
+
+[
+  {
+    "email": "toto@gmail.com",
+    "firstname": "jean",
+    "lastname": "pierre",
+    "password": "totoliketoto",
+    "phone": "0601010101" (optionnel),
+    "address": "chez toto" (optionnel),
+  }
+]
+```
+
+### Les paramètres de la requête
+
+Paramètre | Défaut | Déscription
+--------- | ------- | -----------
+coordinates | "" |
+started_at | "" |
+total_distance | "" |
+total_time | "" |
+max_speed | "" |
+user_id | "" |
+
+## Modification d'une course
+
+### HTTP Request
+
+`PUT http://www.runit.com/api/v1/runs/:id/edit`
+
+<aside class="warning">
+Vous devez remplacer le ":id" par l'id de la course en question.
+</aside>
 
 # Friends
 
